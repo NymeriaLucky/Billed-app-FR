@@ -1,7 +1,7 @@
 import VerticalLayout from './VerticalLayout.js'
 
 export default () => {
-
+  // MG ajout accept="image/*" dans la ligne 58 et ajout message ligne 59
   return (`
     <div class='layout'>
       ${VerticalLayout(120)}
@@ -55,8 +55,8 @@ export default () => {
                   </div>
                   <div class="col-half">
                     <label for="file" class="bold-label">Justificatif</label>
-                    <input required type="file" class="form-control blue-border" data-testid="file" />
-                    <div class="error error-imageFormat" style="color:red;">Votre justificatif doit être une image au format jpg ou png)</div>
+                    <input required type="file" accept="image/*" class="form-control blue-border" data-testid="file" />
+                    <div class="error unsupportedImageFormat" style="color:red;">Votre justificatif doit être une image au format jpg ou png)</div>
                   </div>
                 </div>
             </div>

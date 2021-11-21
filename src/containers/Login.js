@@ -1,6 +1,5 @@
 
 import { ROUTES_PATH } from '../constants/routes.js'
-
 export let PREVIOUS_LOCATION = ''
 
 // we use a class so as to test its methods in e2e tests
@@ -51,6 +50,7 @@ export default class Login {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   checkIfUserExists = (user) => {
     if (this.firestore) {
       this.firestore
@@ -71,6 +71,7 @@ export default class Login {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   createUser = (user) => {
     if (this.firestore) {
       this.firestore

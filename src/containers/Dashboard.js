@@ -33,8 +33,6 @@ export const card = (bill) => {
   const lastName = firstAndLastNames.includes('.') ?
   firstAndLastNames.split('.')[1] : firstAndLastNames
 
-  console.log('[MG] Dashboard Bill date:', bill.date)
-
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>
@@ -46,8 +44,7 @@ export const card = (bill) => {
         <span> ${bill.amount} € </span>
       </div>
       <div class='date-type-container'>
-        <!-- MG -->
-        <span> ${bill.date} </span>
+        <span> ${formatDate(bill.date)} </span>
         <span> ${bill.type} </span>
       </div>
     </div>
@@ -108,13 +105,10 @@ export default class {
       $('.vertical-navbar').css({ height: '120vh' })
       this.counter ++
     }
+
     $('#icon-eye-d').click(this.handleClickIconEye)
-    /* MG
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
     $('#btn-refuse-bill').click((e) => this.handleRefuseSubmit(e, bill))
-    */
-    $('#btn-accept-bill').on('click',(e) => this.handleAcceptSubmit(e, bill))
-    $('#btn-refuse-bill').on('click', (e) => this.handleRefuseSubmit(e, bill))
   }
 
   handleAcceptSubmit = (e, bill) => {
@@ -153,9 +147,8 @@ export default class {
     }
 
     bills.forEach(bill => {
-      // MG
-      // $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
-      $(`#status-bills-container${index} #open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      // $(`#status-bills-container${index} #open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
       /*
       if(bill.status === getStatus(this.index)) {
         $(`#open-bill${bill.id}`).on('click',(e) => this.handleEditTicket(e, bill, bills))
@@ -166,6 +159,7 @@ export default class {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   getBillsAllUsers = () => {
     if (this.firestore) {
       return this.firestore
@@ -186,6 +180,7 @@ export default class {
   }
     
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.firestore) {
     return this.firestore

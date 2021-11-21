@@ -20,15 +20,16 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  // MG
-  // return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
-  return (data && data.length) ? data.sort((a,b)=>{return new Date(b.date) - new Date(a.date)}).map(bill => row(bill)).join("") : ""
+  // MG ajout sort
+  return (data && data.length) ?
+    data.sort((a,b)=>{return new Date(b.date) < new Date(a.date)}).map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
-  
+
+  // MG ajout data-testid
   const modal = () => (`
-    <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="modaleFile" data-testid='modale-file-open' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">

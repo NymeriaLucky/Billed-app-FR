@@ -15,34 +15,38 @@ export default class NewBill {
     this.fileName = null
     new Logout({ document, localStorage, onNavigate })
   }
+  // MG vérification que le format du fichier est supporté
   handleChangeFile = e => {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     var fileName = filePath[filePath.length-1]
-    
-    // Adding file format verification (extension name) and action if format not supported
-    const fileExtension = file.name.split(".").pop()
-    this.document.querySelector(".error-imageFormat").style.display = "none"
-    if (['png','jpg','jpeg'].includes(fileExtension.toLowerCase())){
-      /* istanbul ignore next */
-      this.firestore
-        .storage
-        .ref(`justificatifs/${fileName}`)
-        .put(file)
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then(url => {
-          this.fileUrl = url
-          this.fileName = fileName
-      })
+    this.document.querySelector(".unsupportedImageFormat").style.display = "none"
+    if(file.type == 'image/jpeg' || file.type == 'image/png'){
+      if(this.firestore){
+        this.firestore
+          .storage
+          .ref(`justificatifs/${fileName}`)
+          .put(file)
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then(url => {
+            this.fileUrl = url
+            this.fileName = fileName
+        })
+      }
     }else{
-      this.document.querySelector(".error-imageFormat").style.display = "block"
+      this.document.querySelector(".unsupportedImageFormat").style.display = "block"
       this.document.querySelector(`input[data-testid="file"]`).value = null
     }
   }
+
   handleSubmit = e => {
     e.preventDefault()
-    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
-    const email = JSON.parse(localStorage.getItem("user")).email
+
+    const email = localStorage.getItem('user') ?
+      JSON.parse(localStorage.getItem('user')).email : ""
+
+    // const email = JSON.parse(localStorage.getItem("user")).email
+
     const bill = {
       email,
       type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
@@ -61,6 +65,8 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  // MG ajout ignore
+  /* istanbul ignore next */
   createBill = (bill) => {
     if (this.firestore) {
       this.firestore

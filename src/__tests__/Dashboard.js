@@ -73,7 +73,6 @@ describe('Given I am connected as an Admin', () => {
       icon1.addEventListener('click', handleShowTickets1)
       userEvent.click(icon1)
       expect(handleShowTickets1).toHaveBeenCalled()
-      userEvent.click(icon1)
 
       icon2.addEventListener('click', handleShowTickets2)
       userEvent.click(icon2)
