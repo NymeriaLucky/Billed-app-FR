@@ -63,7 +63,7 @@ export default {
       }]
     })
   },
-  // MG Ajout post (provient de F...)
+  // MG Ajout post
   post: async (bill) => {
     return Promise.resolve({
       data: [{
